@@ -1,5 +1,6 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+from spotipy.oauth2 import SpotifyOAuth
 
 birdy_uri = 'spotify:artist:2WX2uTcsvV5OnS0inACecP'
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
@@ -28,3 +29,13 @@ for track in results['tracks'][:10]:
     print('audio    : ' + track['preview_url'])
     print('cover art: ' + track['album']['images'][0]['url'])
     print()
+    
+#Get my playlists
+
+scope = 'playlist-read-private'
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
+
+print("My Playlists:")
+results = sp.current_user_playlists(limit=50)
+for i, item in enumerate(results['items']):
+    print("%d %s" % (i, item['name']))
